@@ -1,8 +1,8 @@
 cam_ids:
-- 17197559
+- 19244004
 cam_aliases:
-- cam0
-master_cam: 17197559
+- cam1
+master_cam: 19244004
 skip: 20
 delay: 1.0
 
@@ -10,17 +10,17 @@ delay: 1.0
 
 #save_path: ~/projects/data
 #save_type: .bmp #binary or .tiff or .bmp
-#binning: 1 # going from 2 to 1 requires cameras to be unplugged and replugged
-#color: false
+binning: 2 # going from 2 to 1 requires cameras to be unplugged and replugged
+color: true
 #frames: 50
-#soft_framerate: 20 # this frame rate reflects to the software frame rate set using ros::rate
+soft_framerate: 1 # this frame rate reflects to the software frame rate set using ros::rate
 #exp: 997
 #to_ros: true  #When to_ros is not selected, but live is selected, pressing 'space' exports single image to ROS
 
 #Camera info message details
 distortion_model: plumb_bob
-image_height: 1536
-image_width: 2048
+image_height: 600
+image_width: 960
 distortion_coeffs:
 - [-0.021141875266089592, -0.3733872931278025, 2.385982550579459, 3.2824571732099725]
 

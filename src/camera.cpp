@@ -38,16 +38,16 @@ void acquisition::Camera::deinit() {
 }
 
 ImagePtr acquisition::Camera::grab_frame() {
-
+    ROS_DEBUG_STREAM("curt before");
     ImagePtr pResultImage = pCam_->GetNextImage(GET_NEXT_IMAGE_TIMEOUT_);
+    ROS_DEBUG_STREAM("curt after");
     // Check if the Image is complete
 
     if (pResultImage->IsIncomplete()) {
         
         ROS_WARN_STREAM("Image incomplete with image status " << pResultImage->GetImageStatus() << "!");
 
-    } else {
-
+    } else {        
         timestamp_ = pResultImage->GetTimeStamp();
     
         if (frameID_ >= 0) {
@@ -55,8 +55,9 @@ ImagePtr acquisition::Camera::grab_frame() {
             frameID_ = pResultImage->GetFrameID();
             ROS_WARN_STREAM_COND(frameID_ > lastFrameID_ + 1,"Frames are being skipped!");
         } else {
-            frameID_ = pResultImage->GetFrameID();
-            ROS_ASSERT_MSG(frameID_ == 0 ,"First frame ID was not zero! Might cause sync issues later...");
+            frameID_ = pResultImage->GetFrameID();            
+            ROS_DEBUG_STREAM("curt " << frameID_ << "");
+            //ROS_ASSERT_MSG(frameID_ == 0 ,"First frame ID was not zero! Might cause sync issues later...");
         }
 
     }
@@ -293,7 +294,7 @@ void acquisition::Camera::trigger() {
 
     ROS_DEBUG_STREAM("Executing software trigger...");
     ptr->Execute();
-    
+    ROS_DEBUG_STREAM("After software trigger");
 }
 
 
