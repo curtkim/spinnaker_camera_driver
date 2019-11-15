@@ -62,7 +62,8 @@ namespace acquisition {
         void create_cam_directories();
         void save_mat_frames(int);
         void save_binary_frames(int);
-        void get_mat_images();
+        void trigger_get_mat_images();
+        void get_mat_images();        
         void update_grid();
         void export_to_ROS();
         void dynamicReconfigureCallback(spinnaker_sdk_camera_driver::spinnaker_camConfig &config, uint32_t level);

@@ -849,6 +849,20 @@ void acquisition::Capture::save_binary_frames(int dump) {
     
 }
 
+void acquisition::Capture::trigger_get_mat_images() {
+    mesg.header.stamp = ros::Time::now();
+    mesg.time = ros::Time::now();
+    double t = ros::Time::now().toSec();
+
+    for (int i=0; i<numCameras_; i++) {
+        cams[i].trigger();
+        frames_[i] = cams[i].grab_mat_frame();
+        //ROS_INFO("sucess");
+        time_stamps_[i] = cams[i].get_time_stamp();
+    }
+    toMat_time_ = ros::Time::now().toSec() - t;
+}
+
 void acquisition::Capture::get_mat_images() {
     //ros time stamp creation
     mesg.header.stamp = ros::Time::now();
@@ -903,11 +917,12 @@ void acquisition::Capture::run_soft_trig() {
 
     int count = 0;
     
-    for (int i=0; i<numCameras_; i++)
-        cams[i].trigger();
+    //for (int i=0; i<numCameras_; i++)
+    //    cams[i].trigger();
 
     //cams[MASTER_CAM_].trigger();
-    get_mat_images();
+    //get_mat_images();
+    trigger_get_mat_images();
     if (SAVE_) {
         count++;
         if (SAVE_BIN_)
@@ -972,11 +987,12 @@ void acquisition::Capture::run_soft_trig() {
 
             // Call update functions
             if (!MANUAL_TRIGGER_) {
-                for (int i=0; i<numCameras_; i++)
-                    cams[i].trigger();
+                //for (int i=0; i<numCameras_; i++)
+                //    cams[i].trigger();
 
                 //cams[MASTER_CAM_].trigger();
-                get_mat_images();
+                //get_mat_images();
+                trigger_get_mat_images();
             }
 
             if (SAVE_) {
